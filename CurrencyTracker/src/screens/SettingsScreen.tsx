@@ -1,3 +1,5 @@
+import { Text } from "react-native";
+
 export default function SettingsScreen() {
-  return <>Settings Screen</>;
+  return <Text>Settings Screen</Text>;
 }

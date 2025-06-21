@@ -1,3 +1,5 @@
+import { Text } from "react-native";
+
 export default function AllСurrenciesScreen() {
-  return <>Сurrencies Screen</>;
+  return <Text>Сurrencies Screen</Text>;
 }
