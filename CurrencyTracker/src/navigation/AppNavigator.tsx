@@ -25,7 +25,7 @@ function HomeTabs() {
       <Tab.Screen
         name="AllCurrenciesTab"
         component={AllСurrenciesScreen}
-        options={{ title: "All Rates" }}
+        options={{ title: "Сurrencies" }}
       />
 
       <Tab.Screen
