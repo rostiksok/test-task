@@ -10,6 +10,7 @@ import {
 import CurrencyCard from "../components/CurrencyCard";
 import { useRates } from "../hooks/useRates";
 import { useFavorites } from "../hooks/useFavorites";
+import SearchInput from "../components/SearchInput";
 
 export default function AllCurrenciesScreen() {
   const { data, loading, error } = useRates();
@@ -53,13 +54,10 @@ export default function AllCurrenciesScreen() {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.search}
-        placeholder="Search by currency code..."
+      <SearchInput
         value={query}
-        onChangeText={setQuery}
-        autoCapitalize="characters"
-        autoCorrect={false}
+        onChange={setQuery}
+        placeholder="Search by currency code..."
       />
 
       <FlatList
@@ -88,14 +86,4 @@ export default function AllCurrenciesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f0f0f0" },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
-  search: {
-    height: 40,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    marginHorizontal: 8,
-    marginVertical: 8,
-  },
 });
