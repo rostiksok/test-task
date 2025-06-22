@@ -1,25 +1,67 @@
-import React from "react";
-import { FlatList, View } from "react-native";
+import React, { useState, useMemo } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+} from "react-native";
 import CurrencyCard from "../components/CurrencyCard";
-
-const mockRates = [
-  { code: "USD", rate: 1.0 },
-  { code: "EUR", rate: 0.89 },
-  { code: "GBP", rate: 0.78 },
-  { code: "JPY", rate: 113.5 },
-  { code: "AUD", rate: 1.45 },
-  { code: "CAD", rate: 1.26 },
-  { code: "CHF", rate: 0.92 },
-  { code: "CNY", rate: 6.36 },
-  { code: "INR", rate: 74.2 },
-  { code: "RUB", rate: 74.0 },
-];
+import { useRates } from "../hooks/useRates";
 
 export default function AllCurrenciesScreen() {
+  const { data, loading, error } = useRates();
+  const [query, setQuery] = useState("");
+
+  const rates = data?.rates ?? {};
+  const allCurrencies = useMemo(
+    () => Object.entries(rates).map(([code, rate]) => ({ code, rate })),
+    [rates]
+  );
+  const filtered = useMemo(
+    () =>
+      allCurrencies.filter((c) =>
+        c.code.toLowerCase().includes(query.trim().toLowerCase())
+      ),
+    [allCurrencies, query]
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+  if (error) {
+    return (
+      <View style={styles.center}>
+        <Text>Error: {error}</Text>
+      </View>
+    );
+  }
+  if (!data) {
+    return (
+      <View style={styles.center}>
+        <Text>No data available</Text>
+      </View>
+    );
+  }
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#f0f0f0" }}>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.search}
+        placeholder="Search by currency code..."
+        value={query}
+        onChangeText={setQuery}
+        autoCapitalize="characters"
+        autoCorrect={false}
+      />
+
       <FlatList
-        data={mockRates}
+        data={filtered}
         keyExtractor={(item) => item.code}
         renderItem={({ item }) => (
           <CurrencyCard
@@ -29,7 +71,25 @@ export default function AllCurrenciesScreen() {
           />
         )}
         contentContainerStyle={{ paddingVertical: 8 }}
+        ListEmptyComponent={
+          <View style={styles.center}>
+            <Text>No currencies match “{query}”</Text>
+          </View>
+        }
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#f0f0f0" },
+  center: { flex: 1, justifyContent: "center", alignItems: "center" },
+  search: {
+    height: 40,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+});

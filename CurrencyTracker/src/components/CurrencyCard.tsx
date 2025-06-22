@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     marginVertical: 4,
-    marginHorizontal: 16,
 
     shadowColor: "#000",
     shadowOpacity: 0.1,
