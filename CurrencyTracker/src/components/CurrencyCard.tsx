@@ -26,7 +26,7 @@ export default function CurrencyCard({
           <FontAwesome
             name={isFavorite ? "star" : "star-o"}
             size={24}
-            color={isFavorite ? "#f5c518" : "#ccc"}
+            color={isFavorite ? "#ff8000" : "#ccc"}
           />
         </TouchableOpacity>
       </View>

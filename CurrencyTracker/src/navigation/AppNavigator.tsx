@@ -34,7 +34,7 @@ function HomeTabs() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#007AFF",
+        tabBarActiveTintColor: "#ff8000",
         tabBarInactiveTintColor: "gray",
       })}
     >
