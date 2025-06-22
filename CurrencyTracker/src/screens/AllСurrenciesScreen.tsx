@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import CurrencyCard from "../components/CurrencyCard";
 import { useRates } from "../hooks/useRates";
-import { useFavorites } from "../hooks/useFavorites";
 import SearchInput from "../components/SearchInput";
+import { useFavoritesContext } from "../context/FavoritesContext";
 
 export default function AllCurrenciesScreen() {
   const { data, loading, error } = useRates();
-  const { favorites, toggleFavorite } = useFavorites();
+  const { favorites, toggleFavorite } = useFavoritesContext();
   const [query, setQuery] = useState("");
 
   const rates = data?.rates ?? {};
@@ -66,7 +66,7 @@ export default function AllCurrenciesScreen() {
         renderItem={({ item }) => (
           <CurrencyCard
             code={item.code}
-            rate={item.rate}
+            rate={item.rate as number}
             isFavorite={favorites.includes(item.code)}
             onToggleFavorite={() => toggleFavorite(item.code)}
           />

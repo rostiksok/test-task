@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import CurrencyCard from "../components/CurrencyCard";
 import { useRates } from "../hooks/useRates";
-import { useFavorites } from "../hooks/useFavorites";
+import { useFavoritesContext } from "../context/FavoritesContext";
 
 export default function FavoritesScreen() {
   const { data, loading, error } = useRates();
-  const { favorites, toggleFavorite } = useFavorites();
+  const { favorites, toggleFavorite } = useFavoritesContext();
 
   if (loading) {
     return (
