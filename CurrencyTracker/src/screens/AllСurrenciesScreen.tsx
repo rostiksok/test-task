@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import CurrencyCard from "../components/CurrencyCard";
 import { useRates } from "../hooks/useRates";
+import { useFavorites } from "../hooks/useFavorites";
 
 export default function AllCurrenciesScreen() {
   const { data, loading, error } = useRates();
+  const { favorites, toggleFavorite } = useFavorites();
   const [query, setQuery] = useState("");
 
   const rates = data?.rates ?? {};
@@ -67,9 +69,11 @@ export default function AllCurrenciesScreen() {
           <CurrencyCard
             code={item.code}
             rate={item.rate}
-            onPress={() => console.log("Pressed", item.code)}
+            isFavorite={favorites.includes(item.code)}
+            onToggleFavorite={() => toggleFavorite(item.code)}
           />
         )}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingVertical: 8 }}
         ListEmptyComponent={
           <View style={styles.center}>
@@ -91,5 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#ccc",
+    marginHorizontal: 8,
+    marginVertical: 8,
   },
 });
