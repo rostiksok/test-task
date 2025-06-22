@@ -13,7 +13,9 @@
     "@react-navigation/bottom-tabs": "^7.3.17",
     "@react-navigation/native": "^7.1.13",
     "@react-navigation/stack": "^7.3.6",
+    "axios": "^1.10.0",
     "expo": "~53.0.12",
+    "expo-env": "^1.1.1",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-native": "0.79.4",
@@ -25,6 +27,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
+    "react-native-dotenv": "^3.4.11",
     "typescript": "~5.8.3"
   },
   "private": true
