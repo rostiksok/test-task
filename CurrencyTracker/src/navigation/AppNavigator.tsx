@@ -2,10 +2,13 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import AllСurrenciesScreen from "../screens/AllСurrenciesScreen";
-import FavoritesScreen from "../screens/FavoritesScreen";
-import SettingsScreen from "../screens/SettingsScreen";
 import { Ionicons } from "@expo/vector-icons";
+import { useSettings } from "@/context";
+import {
+  FavoritesScreen,
+  AllCurrenciesScreen,
+  SettingsScreen,
+} from "@/screens";
 
 export type RootStackParamList = {
   HomeTabs: undefined;
@@ -16,11 +19,17 @@ const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 function HomeTabs() {
+  const { colors } = useSettings();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }: { route: any }) => ({
         headerShown: true,
         headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: colors.header,
+        },
+        headerTintColor: colors.text,
         tabBarIcon: ({ color, size }) => {
           let iconName: React.ComponentProps<typeof Ionicons>["name"] = "help";
 
@@ -34,14 +43,18 @@ function HomeTabs() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#ff8000",
-        tabBarInactiveTintColor: "gray",
+
+        tabBarActiveTintColor: colors.primary,
+        tabBarStyle: {
+          backgroundColor: colors.card,
+          borderTopColor: colors.border,
+        },
       })}
     >
       <Tab.Screen
         name="AllCurrenciesTab"
-        component={AllСurrenciesScreen}
-        options={{ title: "Сurrencies" }}
+        component={AllCurrenciesScreen}
+        options={{ title: "Currencies" }}
       />
 
       <Tab.Screen

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,33 +6,36 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import CurrencyCard from "../components/CurrencyCard";
-import { useRates } from "../hooks/useRates";
-import { useFavoritesContext } from "../context/FavoritesContext";
+import { CurrencyCard, ScreenContainer, SearchInput } from "@/components";
+import { useRates } from "@/hooks";
+import { useFavoritesContext, useSettings } from "@/context";
 
 export default function FavoritesScreen() {
+  const { colors } = useSettings();
   const { data, loading, error } = useRates();
   const { favorites, toggleFavorite } = useFavoritesContext();
 
   if (loading) {
     return (
-      <View style={styles.center}>
+      <ScreenContainer style={styles.center}>
         <ActivityIndicator size="large" />
-      </View>
+      </ScreenContainer>
     );
   }
+
   if (error) {
     return (
-      <View style={styles.center}>
-        <Text>Error: {error}</Text>
-      </View>
+      <ScreenContainer style={styles.center}>
+        <Text style={{ color: colors.text }}>{error}</Text>
+      </ScreenContainer>
     );
   }
+
   if (!data) {
     return (
-      <View style={styles.center}>
-        <Text>No data available</Text>
-      </View>
+      <ScreenContainer style={styles.center}>
+        <Text style={{ color: colors.text }}>No data available</Text>
+      </ScreenContainer>
     );
   }
 
@@ -45,30 +48,31 @@ export default function FavoritesScreen() {
 
   if (favoriteItems.length === 0) {
     return (
-      <View style={styles.center}>
-        <Text>No favorites yet</Text>
-      </View>
+      <ScreenContainer style={styles.center}>
+        <Text style={{ color: colors.text }}>No favorites yet</Text>
+      </ScreenContainer>
     );
   }
 
   return (
-    <FlatList
-      contentContainerStyle={styles.list}
-      data={favoriteItems}
-      keyExtractor={(item) => item.code}
-      renderItem={({ item }) => (
-        <CurrencyCard
-          code={item.code}
-          rate={item.rate}
-          onToggleFavorite={() => toggleFavorite(item.code)}
-          isFavorite={favorites.includes(item.code)}
-        />
-      )}
-    />
+    <ScreenContainer>
+      <FlatList
+        data={favoriteItems}
+        keyExtractor={(item) => item.code}
+        renderItem={({ item }) => (
+          <CurrencyCard
+            code={item.code}
+            rate={item.rate}
+            onToggleFavorite={() => toggleFavorite(item.code)}
+            isFavorite={favorites.includes(item.code)}
+          />
+        )}
+        contentContainerStyle={{ gap: 8 }}
+      />
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
-  list: { paddingVertical: 8 },
 });

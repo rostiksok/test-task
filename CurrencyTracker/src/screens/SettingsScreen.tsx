@@ -1,65 +1,87 @@
 import React from "react";
-import { View, Text, StyleSheet, Switch } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import Switchbox from "../components/Switchbox";
-import ToggleGroup from "../components/ToggleGroup";
-import { useSettings } from "../context/SettingsContext";
+import { useSettings } from "@/context";
+import { ScreenContainer, Switchbox, ToggleGroup } from "@/components";
+import { ThemeType } from "@/theme";
 
 export default function SettingsScreen() {
-  const { theme, setTheme, offlineMode, setOfflineMode } = useSettings();
+  const { theme, setTheme, offlineMode, setOfflineMode, colors, sizes } =
+    useSettings();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.settingRow}>
+    <ScreenContainer>
+      <Text style={{ color: colors.text, fontSize: sizes.font.h2 }}>
+        Appearance
+      </Text>
+      <View
+        style={[
+          styles.settingRow,
+          {
+            padding: sizes.padding,
+            backgroundColor: colors.card,
+            borderRadius: sizes.cardRadius,
+            marginVertical: 10,
+          },
+        ]}
+      >
         <View style={styles.labelWrapper}>
           <FontAwesome
-            name="paint-brush"
-            size={24}
-            color="#333"
-            style={styles.icon}
+            name="moon-o"
+            size={sizes.iconSize}
+            color={colors.text}
+            style={{ marginRight: sizes.smallPadding }}
           />
-          <Text style={styles.label}>Theme</Text>
+          <Text style={{ color: colors.text, fontSize: sizes.font.body }}>
+            Theme
+          </Text>
         </View>
 
         <ToggleGroup
           options={["Light", "Dark"]}
           selected={theme}
-          onSelect={(t: string) => setTheme(t as "Light" | "Dark")}
+          onSelect={(t: string) => setTheme(t as ThemeType)}
         />
       </View>
 
-      <View style={styles.settingRow}>
+      <Text style={{ color: colors.text, fontSize: sizes.font.h2 }}>Mode</Text>
+
+      <View
+        style={[
+          styles.settingRow,
+          {
+            padding: sizes.padding,
+            backgroundColor: colors.card,
+            borderRadius: sizes.cardRadius,
+            marginVertical: 10,
+          },
+        ]}
+      >
         <View style={styles.labelWrapper}>
-          <FontAwesome name="wifi" size={24} color="#333" style={styles.icon} />
-          <Text style={styles.label}>Offline Mode</Text>
+          <FontAwesome
+            name="wifi"
+            size={sizes.iconSize}
+            color={colors.text}
+            style={{ marginRight: sizes.smallPadding }}
+          />
+          <Text style={{ color: colors.text, fontSize: sizes.font.body }}>
+            Offline
+          </Text>
         </View>
         <Switchbox value={offlineMode} onValueChange={setOfflineMode} />
       </View>
-    </View>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
   settingRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 24,
   },
   labelWrapper: {
     flexDirection: "row",
     alignItems: "center",
-  },
-  icon: {
-    marginInlineEnd: 8,
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
   },
 });

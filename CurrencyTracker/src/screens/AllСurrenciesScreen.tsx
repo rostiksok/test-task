@@ -4,17 +4,20 @@ import {
   FlatList,
   Text,
   View,
-  TextInput,
   StyleSheet,
 } from "react-native";
 import CurrencyCard from "../components/CurrencyCard";
 import { useRates } from "../hooks/useRates";
 import SearchInput from "../components/SearchInput";
 import { useFavoritesContext } from "../context/FavoritesContext";
+import { useSettings } from "../context/SettingsContext";
+import { ScreenContainer } from "@/components";
 
 export default function AllCurrenciesScreen() {
+  const { colors, sizes } = useSettings();
   const { data, loading, error } = useRates();
   const { favorites, toggleFavorite } = useFavoritesContext();
+
   const [query, setQuery] = useState("");
 
   const rates = data?.rates ?? {};
@@ -52,13 +55,33 @@ export default function AllCurrenciesScreen() {
     );
   }
 
+  const resultsText =
+    query.trim() === ""
+      ? "All Currencies"
+      : `${filtered.length} ${
+          filtered.length > 1 ? "Currencies" : "Currency"
+        } found`;
+
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <SearchInput
         value={query}
         onChange={setQuery}
-        placeholder="Search by currency code..."
+        placeholder="Search by code..."
       />
+
+      {filtered.length > 0 && (
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: sizes.font.h2,
+            marginVertical: 8,
+            fontWeight: "bold",
+          }}
+        >
+          {resultsText}
+        </Text>
+      )}
 
       <FlatList
         data={filtered}
@@ -72,18 +95,26 @@ export default function AllCurrenciesScreen() {
           />
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingVertical: 8 }}
+        contentContainerStyle={{ gap: 8, marginTop: 8, paddingBottom: 32 }}
         ListEmptyComponent={
           <View style={styles.center}>
-            <Text>No currencies match “{query}”</Text>
+            <Text
+              style={{
+                color: colors.text,
+                fontSize: sizes.font.h2,
+                marginVertical: 8,
+                fontWeight: "bold",
+              }}
+            >
+              No currencies match “{query}”
+            </Text>
           </View>
         }
       />
-    </View>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f0f0f0" },
-  center: { flex: 1, justifyContent: "center", alignItems: "center" },
+  center: { alignItems: "center" },
 });

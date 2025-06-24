@@ -14,18 +14,28 @@ export default function SearchInput({
   onChange,
   placeholder = "Search...",
 }: SearchInputProps) {
-  const {sizes}=useSettings();
+  const { sizes, colors } = useSettings();
+
   return (
     <View style={[styles.wrapper, { borderRadius: sizes.cardRadius }]}>
-      <FontAwesome name="search" size={sizes.iconSize} color="#999" style={styles.icon} />
+      <FontAwesome
+        name="search"
+        size={sizes.iconSize}
+        color="#999"
+        style={{
+          marginInlineEnd: sizes.smallPadding,
+        }}
+      />
       <TextInput
-        style={{ flex: 1 , fontSize: sizes.font.body }}
+        style={{
+          flex: 1,
+          fontSize: sizes.font.body,
+        }}
         placeholder={placeholder}
         value={value}
         onChangeText={onChange}
         autoCapitalize="characters"
         autoCorrect={false}
-        placeholderTextColor="#999"
       />
     </View>
   );
@@ -40,10 +50,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#ccc",
-    marginHorizontal: 16,
-    marginVertical: 8,
-  },
-  icon: {
-    marginRight: 8,
   },
 });

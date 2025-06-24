@@ -4,6 +4,7 @@ export const COLORS = {
   light: {
     background1: "#ffffff",
     background: "#f2f2f2",
+    header: "#f2f2f2",
     card: "#ffffff",
     text: "black",
     primary: "#afc6ff",
@@ -14,6 +15,7 @@ export const COLORS = {
   dark: {
     background1: "#121212",
     background: "#17181a",
+    header: "#212527",
     card: "#2e3336",
     text: "white",
     primary: "#afc6ff",
@@ -24,10 +26,12 @@ export const COLORS = {
 };
 
 export const SIZES = {
+  margin: 16,
   padding: 16,
   smallPadding: 8,
   cardRadius: 8,
   iconSize: 16,
+  largeIconSize: 24,
   font: {
     h1: 24,
     h2: 18,

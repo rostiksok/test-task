@@ -6,24 +6,28 @@ import React, {
   useContext,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { COLORS, SIZES, ThemeType } from "@/theme";
 
-type ThemeType = "Light" | "Dark";
 
-interface Settings {
+interface SettingsContextValue {
   theme: ThemeType;
   setTheme: (t: ThemeType) => void;
   offlineMode: boolean;
   setOfflineMode: (v: boolean) => void;
+  colors: typeof COLORS.light;
+  sizes: typeof SIZES;
 }
 
 const KEY_THEME = "app_theme";
 const KEY_OFFLINE = "app_offline";
 
-const SettingsContext = createContext<Settings>({
+const SettingsContext = createContext<SettingsContextValue>({
   theme: "Light",
   setTheme: () => {},
   offlineMode: false,
   setOfflineMode: () => {},
+  colors: COLORS.light,
+  sizes: SIZES,
 });
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
@@ -32,9 +36,16 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const [t, of] = await AsyncStorage.multiGet([KEY_THEME, KEY_OFFLINE]);
-      if (t[1] === "Light" || t[1] === "Dark") setThemeState(t[1] as ThemeType);
-      if (of[1] != null) setOfflineState(of[1] === "true");
+      const entries = await AsyncStorage.multiGet([KEY_THEME, KEY_OFFLINE]);
+      const savedTheme = entries.find(([k]) => k === KEY_THEME)?.[1];
+      const savedOffline = entries.find(([k]) => k === KEY_OFFLINE)?.[1];
+
+      if (savedTheme === "Light" || savedTheme === "Dark") {
+        setThemeState(savedTheme as ThemeType);
+      }
+      if (savedOffline != null) {
+        setOfflineState(savedOffline === "true");
+      }
     })();
   }, []);
 
@@ -42,14 +53,18 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     setThemeState(t);
     AsyncStorage.setItem(KEY_THEME, t);
   };
+
   const setOfflineMode = (v: boolean) => {
     setOfflineState(v);
     AsyncStorage.setItem(KEY_OFFLINE, v ? "true" : "false");
   };
 
+  const colors = theme === "Light" ? COLORS.light : COLORS.dark;
+  const sizes = SIZES;
+
   return (
     <SettingsContext.Provider
-      value={{ theme, setTheme, offlineMode, setOfflineMode }}
+      value={{ theme, setTheme, offlineMode, setOfflineMode, colors, sizes }}
     >
       {children}
     </SettingsContext.Provider>
