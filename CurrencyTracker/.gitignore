@@ -36,3 +36,10 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+# Expo
+.expo/
+.idea/
+dist/
+web-build/
+ios
+android
