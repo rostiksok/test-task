@@ -1,5 +1,7 @@
+import { useSettings } from "@/context";
 import React, { useEffect, useRef } from "react";
 import { Animated, Pressable, StyleSheet } from "react-native";
+
 
 interface SwitchboxProps {
   value: boolean;
@@ -7,6 +9,7 @@ interface SwitchboxProps {
 }
 
 export default function Switchbox({ value, onValueChange }: SwitchboxProps) {
+  const { colors } = useSettings();
   const translateX = useRef(new Animated.Value(value ? 20 : 0)).current;
 
   useEffect(() => {
@@ -24,7 +27,10 @@ export default function Switchbox({ value, onValueChange }: SwitchboxProps) {
   return (
     <Pressable
       onPress={toggle}
-      style={[styles.switch, value ? styles.switchOn : styles.switchOff]}
+      style={[
+        styles.switch,
+        value ? { backgroundColor: colors.primary } : styles.switchOff,
+      ]}
     >
       <Animated.View style={[styles.thumb, { transform: [{ translateX }] }]} />
     </Pressable>

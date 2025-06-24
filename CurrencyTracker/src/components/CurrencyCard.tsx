@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useSettings } from "@/context";
 
 type CurrencyCardProps = {
   code: string;
@@ -15,12 +16,14 @@ export default function CurrencyCard({
   isFavorite,
   onToggleFavorite,
 }: CurrencyCardProps) {
+  const { colors } = useSettings();
+
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={[styles.card, { backgroundColor: colors.card, borderRadius: 8 }]}>
       <View style={styles.row}>
         <View>
-          <Text style={styles.code}>{code}</Text>
-          <Text style={styles.rate}>{rate.toFixed(4)}</Text>
+          <Text style={[styles.code, {color: colors.text}] }>{code}</Text>
+          <Text style={[styles.rate, {color:colors.text}]}>{rate.toFixed(4)}</Text>
         </View>
         <TouchableOpacity onPress={onToggleFavorite}>
           <FontAwesome
@@ -37,11 +40,9 @@ export default function CurrencyCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
     padding: 16,
     marginVertical: 4,
-    marginHorizontal: 8,
+    marginHorizontal: 16,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 6,

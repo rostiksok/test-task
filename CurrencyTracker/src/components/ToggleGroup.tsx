@@ -1,3 +1,4 @@
+import { useSettings } from "@/context";
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
@@ -12,19 +13,22 @@ export default function ToggleGroup({
   selected,
   onSelect,
 }: ToggleGroupProps) {
+  const { colors, sizes } = useSettings();
+
   return (
-    <View style={styles.toggleGroup}>
+    <View style={[styles.toggleGroup, { borderRadius: sizes.cardRadius }]}>
       {options.map((option) => {
         const isActive = option === selected;
         return (
           <TouchableOpacity
             key={option}
             onPress={() => onSelect(option)}
-            style={[styles.toggleButton, isActive && styles.toggleButtonActive]}
+            style={[
+              styles.toggleButton,
+              isActive && { backgroundColor: colors.primary },
+            ]}
           >
-            <Text
-              style={[styles.toggleText, isActive && styles.toggleTextActive]}
-            >
+            <Text style={[styles.toggleText, isActive && { color: "#012f6c" }]}>
               {option}
             </Text>
           </TouchableOpacity>
@@ -37,9 +41,7 @@ export default function ToggleGroup({
 const styles = StyleSheet.create({
   toggleGroup: {
     flexDirection: "row",
-    borderRadius: 8,
     overflow: "hidden",
-    borderColor: "#ccc",
   },
   toggleButton: {
     paddingVertical: 8,

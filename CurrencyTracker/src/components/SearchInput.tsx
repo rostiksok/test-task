@@ -1,5 +1,7 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { useSettings } from "@/context";
 
 type SearchInputProps = {
   value: string;
@@ -12,27 +14,36 @@ export default function SearchInput({
   onChange,
   placeholder = "Search...",
 }: SearchInputProps) {
+  const {sizes}=useSettings();
   return (
-    <TextInput
-      style={styles.input}
-      placeholder={placeholder}
-      value={value}
-      onChangeText={onChange}
-      autoCapitalize="characters"
-      autoCorrect={false}
-    />
+    <View style={[styles.wrapper, { borderRadius: sizes.cardRadius }]}>
+      <FontAwesome name="search" size={sizes.iconSize} color="#999" style={styles.icon} />
+      <TextInput
+        style={{ flex: 1 , fontSize: sizes.font.body }}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChange}
+        autoCapitalize="characters"
+        autoCorrect={false}
+        placeholderTextColor="#999"
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  input: {
+  wrapper: {
+    flexDirection: "row",
+    alignItems: "center",
     height: 50,
     paddingHorizontal: 12,
-    borderRadius: 8,
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#ccc",
-    marginHorizontal: 8,
+    marginHorizontal: 16,
     marginVertical: 8,
+  },
+  icon: {
+    marginRight: 8,
   },
 });
