@@ -90,6 +90,7 @@ export default function AllCurrenciesScreen() {
           <CurrencyCard
             code={item.code}
             rate={item.rate as number}
+            base={data.base}
             isFavorite={favorites.includes(item.code)}
             onToggleFavorite={() => toggleFavorite(item.code)}
           />

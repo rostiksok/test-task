@@ -6,6 +6,7 @@ import { useSettings } from "@/context";
 type CurrencyCardProps = {
   code: string;
   rate: number;
+  base: string;
   isFavorite: boolean;
   onToggleFavorite: () => void;
 };
@@ -13,6 +14,7 @@ type CurrencyCardProps = {
 export default function CurrencyCard({
   code,
   rate,
+  base,
   isFavorite,
   onToggleFavorite,
 }: CurrencyCardProps) {
@@ -60,7 +62,7 @@ export default function CurrencyCard({
       <Text
         style={[{ fontSize: sizes.font.caption, marginTop: 8, color: "#666" }]}
       >
-        Base: USD
+        Base: {base}
       </Text>
     </TouchableOpacity>
   );
