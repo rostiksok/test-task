@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import { CurrencyCard, ScreenContainer, SearchInput } from "@/components";
+import { CurrencyCard, ScreenContainer } from "@/components";
 import { useRates } from "@/hooks";
 import { useFavoritesContext, useSettings } from "@/context";
 
@@ -63,6 +63,7 @@ export default function FavoritesScreen() {
           <CurrencyCard
             code={item.code}
             rate={item.rate}
+            base={data.base}
             onToggleFavorite={() => toggleFavorite(item.code)}
             isFavorite={favorites.includes(item.code)}
           />

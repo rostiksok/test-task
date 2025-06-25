@@ -14,7 +14,7 @@ export default function SearchInput({
   onChange,
   placeholder = "Search...",
 }: SearchInputProps) {
-  const { sizes, colors } = useSettings();
+  const { sizes } = useSettings();
 
   return (
     <View style={[styles.wrapper, { borderRadius: sizes.cardRadius }]}>
