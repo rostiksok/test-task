@@ -6,12 +6,9 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import CurrencyCard from "../components/CurrencyCard";
-import { useRates } from "../hooks/useRates";
-import SearchInput from "../components/SearchInput";
-import { useFavoritesContext } from "../context/FavoritesContext";
-import { useSettings } from "../context/SettingsContext";
-import { ScreenContainer } from "@/components";
+import { CurrencyCard, ScreenContainer, SearchInput } from "@/components";
+import { useFavoritesContext, useSettings } from "@/context";
+import { useRates } from "@/hooks";
 
 export default function AllCurrenciesScreen() {
   const { colors, sizes } = useSettings();
