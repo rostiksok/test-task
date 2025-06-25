@@ -28,7 +28,13 @@ export default function ToggleGroup({
               isActive && { backgroundColor: colors.primary },
             ]}
           >
-            <Text style={[styles.toggleText, isActive && { color: "#012f6c" }]}>
+            <Text
+              style={[
+                styles.toggleText,
+                { fontSize: sizes.font.body },
+                isActive && { color: "#012f6c" },
+              ]}
+            >
               {option}
             </Text>
           </TouchableOpacity>
@@ -54,7 +60,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ff8000",
   },
   toggleText: {
-    fontSize: 16,
     color: "#333",
   },
   toggleTextActive: {
